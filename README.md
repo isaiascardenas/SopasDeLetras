@@ -1,2 +1,6 @@
-# SopasDeLetras
-proyecto sopas de letras para metodos de programacion
+# SopaDeLetras
+
+sopa de letras para metodos de progarmacion
+
+## Usage 
+this program...
