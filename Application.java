@@ -10,6 +10,8 @@ public class Application
 
 		soup.setSoup(file.getFileContent());
 
+		soup.setWords();
+		System.out.println(soup.getFindingWords());
 		
 
 		// file.setFileName("Palabras.in");
