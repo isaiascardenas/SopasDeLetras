@@ -46,7 +46,7 @@ public class LetterSoup
 	{
 		for (int j =0 ; j<this.soup.size(); j++) {
 			for (int i = 0; i < this.soup.get(j).length(); i ++) {
-				if (!this.isVocal(this.soup.get(j).charAt(i))) {
+				if (!this.isVowel(this.soup.get(j).charAt(i))) {
 					List<String> lastPositions = new ArrayList<String>(Arrays.asList("notFound"));
 					List<String> backFrom = new ArrayList<String>();
 					List<List<Integer>> set = new ArrayList<List<Integer>>();
@@ -56,12 +56,16 @@ public class LetterSoup
 					set.add(Arrays.asList(i,j));
 					this.word = new StringBuilder(4);
 					word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
-					if (this.searchWord(word, lastPositions, backFrom, set)) {
-						this.findingWords.add(0, word.toString());
-						// break;
-					}	
+					this.searchWord(word, lastPositions, backFrom, set);
+						
+					break;
+					// if (this.searchWord(word, lastPositions, backFrom, set)) {
+					// 	this.findingWords.add(0, word.toString());
+					// 	// break;
+					// }	
 				}
 			}
+			break;
 		}
 	}
 
@@ -216,18 +220,18 @@ public class LetterSoup
 		}
 	}
 
-	private boolean isVocal(char character)
+	private boolean isVowel(char character)
 	{
-		List<Character> vocals = new ArrayList<Character>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
-		return vocals.contains(character);
+		List<Character> vowels = new ArrayList<Character>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
+		return vowels.contains(character);
 	}
 
 	private boolean isNextLetter(int len, char character)
 	{
 		if (len%2 == 0) {
-			return !this.isVocal(character);
+			return !this.isVowel(character);
 		}
-		return this.isVocal(character);
+		return this.isVowel(character);
 	}
 
 	private boolean searchWord(StringBuilder word, List<String> lastPositions, List<String> backFrom, List<List<Integer>> positionsSet) 
@@ -239,7 +243,7 @@ public class LetterSoup
 		lastPositions.add(0, "right");
 		lastPositions.add(0, "left");
 
-		while (word.toString().length() != 4 && lastPositions.size() != 0) {
+		while (lastPositions.size() != 0) {
 			String direction = lastPositions.get(0);
 			lastPositions.remove(0);
 
@@ -252,45 +256,86 @@ public class LetterSoup
 							this.coordinates.set(0, this.coordinates.get(0)-1);
 							positionsSet.add(0, position);
 							word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
-							backFrom.add(0, direction);
-							lastPositions.add(0, "back");
-							return this.searchWord(word, lastPositions, backFrom, positionsSet);
+							if (word.toString().length() == 4) {
+								positionsSet.remove(position);
+								this.goBack(direction);
+								this.findingWords.add(0, word.toString());
+								word.deleteCharAt(word.toString().length()-1);
+								break;
+							} else {
+								backFrom.add(0, direction);
+								lastPositions.add(0, "back");
+								return this.searchWord(word, lastPositions, backFrom, positionsSet);
+							}
 						}
 						break;
 					case "right":
 						position.set(1, this.coordinates.get(1));
 						position.set(0, this.coordinates.get(0)+1);
+						System.out.println("not in positionsSet: "+!positionsSet.contains(position) + " ;position: "+ position+" ;positionsSet: "+positionsSet);
 						if (this.isNextLetter(this.word.toString().length(), this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)+1)) && !positionsSet.contains(position)) {
+							System.out.println(direction);
 							this.coordinates.set(0, this.coordinates.get(0)+1);
 							positionsSet.add(0, position);
+							System.out.println(positionsSet);
 							word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
-							backFrom.add(0, direction);
-							lastPositions.add(0, "back");
-							return this.searchWord(word, lastPositions, backFrom, positionsSet);
+							if (word.toString().length() == 4) {
+								positionsSet.remove(position);
+								this.goBack(direction);
+								System.out.println(word.toString());
+								this.findingWords.add(0, word.toString());
+								word.deleteCharAt(word.toString().length()-1);
+								break;
+							} else {
+								backFrom.add(0, direction);
+								lastPositions.add(0, "back");
+								return this.searchWord(word, lastPositions, backFrom, positionsSet);
+							}
 						}
 						break;
 					case "up":
 						position.set(0, this.coordinates.get(0));
 						position.set(1, this.coordinates.get(1)-1);
 						if (this.isNextLetter(this.word.toString().length(), this.soup.get(this.coordinates.get(1)-1).charAt(this.coordinates.get(0))) && !positionsSet.contains(position)) {
+							System.out.println(direction);
 							this.coordinates.set(1, this.coordinates.get(1)-1);
 							positionsSet.add(0, position);
+							System.out.println(positionsSet);
 							word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
-							backFrom.add(0, direction);
-							lastPositions.add(0, "back");
-							return this.searchWord(word, lastPositions, backFrom, positionsSet);
+							if (word.toString().length() == 4) {
+								positionsSet.remove(position);
+								this.goBack(direction);
+								System.out.println(word.toString());
+								this.findingWords.add(0, word.toString());
+								word.deleteCharAt(word.toString().length()-1);
+								break;
+							} else {
+								backFrom.add(0, direction);
+								lastPositions.add(0, "back");
+								return this.searchWord(word, lastPositions, backFrom, positionsSet);
+							}
 						}
-						break;
 					case "down":
 						position.set(0, this.coordinates.get(0));
 						position.set(1, this.coordinates.get(1)+1);
 						if (this.isNextLetter(this.word.toString().length(), this.soup.get(this.coordinates.get(1)+1).charAt(this.coordinates.get(0))) && !positionsSet.contains(position)) {
+							System.out.println(direction);
 							this.coordinates.set(1, this.coordinates.get(1)+1);
 							positionsSet.add(0, position);
+							System.out.println(positionsSet);
 							word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
-							backFrom.add(0, direction);
-							lastPositions.add(0, "back");
-							return this.searchWord(word, lastPositions, backFrom, positionsSet);
+							if (word.toString().length() == 4) {
+								positionsSet.remove(position);
+								this.goBack(direction);
+								System.out.println(word.toString());
+								this.findingWords.add(0, word.toString());
+								word.deleteCharAt(word.toString().length()-1);
+								break;
+							} else {
+								backFrom.add(0, direction);
+								lastPositions.add(0, "back");
+								return this.searchWord(word, lastPositions, backFrom, positionsSet);
+							}
 						}
 						break;
 					case "back":
@@ -298,14 +343,23 @@ public class LetterSoup
 						position.set(1, this.coordinates.get(1));
 						positionsSet.remove(position);
 						this.goBack(backFrom.get(0));
+						System.out.println("back");
 						word.deleteCharAt(word.toString().length()-1);
 						backFrom.remove(0);
 						break;
 					default:
+						System.out.println("notFound");
+						System.out.println("false");
 						return false;
 				}
+				// if (word.toString().length() == 4) {
+				// 	System.out.println(word.toString());
+				// 	this.findingWords.add(0, word.toString());
+				// 	return this.searchWord(word, lastPositions, backFrom, positionsSet);
+				// }
 			}
 		}
+		System.out.println("true");
 		return true;
 	}
 }
