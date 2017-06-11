@@ -42,7 +42,7 @@ public class FileManager
 		}
 	}
 
-	public void writeFile(List<String> findingWords, List<String> missingWords)
+	public void writeFile(List<String> findingWords)
 	{
 		try {
 	        File file = new File(this.fileName);

@@ -11,7 +11,6 @@ public class Application
 		soup1.setSoup(file.getFileContent());
 
 		soup1.setWords();
-		System.out.println(soup1.getFindingWords());
 
 		file.setFileName("Sopa2.in");
 		file.readFile();
@@ -19,10 +18,9 @@ public class Application
 
 		soup2.setSearchingWords(soup1.getFindingWords());
 		soup2.searchWords();
-		System.out.println(soup2.getFindingWords());
 
-		// file.setFileName("Solucion.out");
-		// file.writeFile(soup.getFindingWords(), soup.getMissingWords());
+		file.setFileName("Solucion.out");
+		file.writeFile(soup2.getFindingWords());
 
 		System.out.println("Done!");
 	}
