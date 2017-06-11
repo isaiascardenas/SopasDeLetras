@@ -54,7 +54,7 @@ Luego de encontrar las palabras existentes en la primera sopa solo queda determi
 
 # Descripcion de la solucion
 
-Se almacenará la sopa de letras en una matriz creada con ArrayList<String> de manera que se pueda recorrer caracter por caracter, se almacenarán las palabras a buscar en otro ArrayList<String> para recorrerlas una por una y buscarlas dentro de la sopa de letras. Se buscarán coincidencias de la primera letra de la palabra buscada y cada vez que se encuentren se utilizará un algoritmo recursivo para buscar la palabra implementando el método Busqueda por espacio de estados. Éste algoritmo se apoyará en una pila que contiene los estados activos (posibles soluciones) y se iran extrayendo estados desde la pila para realizar una busqueda en profundidad como lo muestra la ilustración 4.
+Se almacenarán las sopas de letras en una matrices creadas con ArrayList<String> de manera que se puedan recorrer caracter por caracter, se almacenarán las palabras existentes en otro ArrayList<String> para recorrerlas una por una y buscarlas dentro de la segunda sopa de letras. Se buscarán consonantes dentro de la primera sopa, ya que una palabra valida comienza con una consonante, y cada vez que se encuentren se utilizará un algoritmo recursivo para buscar las palabras validas que inician con esta letra implementando el método Busqueda por espacio de estados. Éste algoritmo se apoyará en una pila que contiene los estados activos (posibles soluciones) y se iran extrayendo estados desde la pila para realizar una busqueda en profundidad como lo muestra la ilustración 4. Luego de este proceso se implementará similitud débil basandose en el proyecto anterior (entrega 2), de manera que se busquen palabras en la segunda sopa de letras a partir del listado de palabras encontradas en la primera sopa. Las palabras encontradas en la segunda sopa de letras serán las que se escribirán en el fichero de salida ya que estan presentes en ambas sopas.
 
 (ilustración 4)
 
@@ -62,25 +62,29 @@ Se almacenará la sopa de letras en una matriz creada con ArrayList<String> de m
 
 * FileManager: Es la clase que administra los ficheros que se leerán y se escribirán, si el archivo de salida no existe la clase lo crea con el contenido correspondiente.
 
-* LetterSoup: Ésta clase se encarga de manipular la sopa de letras para buscar las palabras solicitadas, implementa el método Busqueda en espacio de estados de manera recursiva.
+* LetterSoup: Ésta clase se encarga de manipular las sopas de letras para buscar las palabras, ya sea se soliciten o no. Implementa el método Busqueda en espacio de estados de manera recursiva y similitud débil basado en el algoritmo del proyecto anterior.
 
-* Application: La clase Application relaciona las dos clases mencionadas anteriormente, instancia un objeto FileManager y un objeto LetterSoup para realizar los objetivos de éste programa.
+* Application: La clase Application relaciona las dos clases mencionadas anteriormente, instancia un objeto FileManager y dos objetos LetterSoup (uno para cada sopa) para realizar los objetivos de éste programa.
+
+* Index: La clase Index es la clase principal (main), en ella se instancia un objeto Application y para realizar la funcionalidad de este proyecto.
 
 La interacción de estas clases se ilustran en la ilustración 5
 
 (ilustración 5)
 
-La funcionalidad principal se centra en el método depthFirstSearch de la clase LetterSoup, realiza una busqueda en profundidad en la sopa de letras. Para encontrar la palabra dentro de la sopa de letras se genera una pila que guardará los Strings de las direcciones adyacentes para buscar la siguiente letra ademas de el String "back" que servirá para realizar el backtraking en caso de que se haya escogido la direccion equivocada, en el fondo de la pila se guarda el String "notFoud" que indica que la palabra no ha sido encontrada. Se extraen las direcciones desde la pila para buscar la letra correspondiente y encaso de que ese extraiga el String "back" se regresará a la posicion anterior y se buscará en otra dirección, cada vez que cambia la letra a buscar se agregan nuevas direcciones y un "back". Cuando se encuentra la letra se ingresa nuevamente al metodo para buscar la letra que sigue, el  proceso se repite hasta que la pila esté vacia o hasta que se hayan recorrido todas las letras de la palabra.
+La funcionalidad pricipal se centra en el método searchWord de la clase LetterSoup que fue implentado con similitud débil basado en el algoritmo del método depthFirstSearch, realiza una busqueda en profundidad de manera recursiva para buscar las palabras existentes en una sopa de letras (segun la definición de palabra entregada). La busqueda se realiza de manera similar a la del proyecto anterior, se genera una pila que guardará los Strings de las direcciones adyacentes para buscar la siguiente letra ademas del String "back" que servirá para realizar el backtraking en caso de que se haya escogido la direccion equivocada, en el fondo de la pila se guarda el String "notFoud" que indica que la palabra no ha sido encontrada. Se extraen las direcciones desde la pila para buscar la letra correspondiente y encaso de que ese extraiga el String "back" se regresará a la posicion anterior y se buscará en otra dirección, cada vez que cambia la letra a buscar se agregan nuevas direcciones y un "back". Cuando se encuentra la letra se ingresa nuevamente al metodo para buscar la letra que sigue, el  proceso se repite hasta que la pila esté vacia. Se agrega la condición de que cada vez que la palabra tenga largo 4, se almacena en el ArrayList<String> words, se remueve la ultima letra y se continua buscando.
 
-En caso de que se haya recorrido toda la palabra ésta habrá sido encontrada y se retornara "true", en otro caso se habrá llegado hasta el fondo de la pila en donde estaba el String "notFound" lo que indica que la palabra no ha sido encontrada retornando "false".
+Cuando la pila esta vacia se habrán recorrido todas las combinaciones posibles a partir de una consonante y las palabras encontradas estarán en el ArrayList<String> words. Se inicia el proceso nuevamente con la siguiente consonante en la sopa de letras hasta haber recorrido toda la sopa.
 
-Cada palabra en el archivo de entrada (Palabras.in) se busca utilizando el metodo depthFirstSearch y cada palabra encontrada se guarda en el ArrayList findingWords, de manera que al final del proceso se puedan obtener las palabras que no se encontraron removiendo el contenido de findingWords del archivo de entrada. Luego de haber buscado todas las palabras se escribe en el archivo de salida (Solucion.out) las palabras encontradas y las que no.
+Luego de generar una lista con las palabras existentes en la primera sopa de letras, se buscan las palabras en la segunda sopa a partir del listado generado. Como se mencionó anteriormente las palabras encontradas en la segunda sopa de letras serán las que estén persentes en ambas sopas por lo que serán enviadas al archivo de salida.
 
 El proceso descrito se ilustra en el diagrama de flujo de la ilustración 6.
 
 (ilustración 6)
 
 # Conclusiones
+
+Se cumplen los objetivos propuestos y los requerimientos solicitados en el plazo estipulado. Aunque el proyecto requería mas tiempo para poder realizarse, la implementación de similitud débil simplificó muchas tareas, solo se tuvieron que hacer unas pequeñas modificaciones en el método principal. 
 
 En resumen el proyecto cumple con las especificaciones requeridas y en el plazo solicitado, a modo de ejemplo se adjuntan 3 ejemplos con diferentes archivos de entrada obteniendo los resultados esperados...
 
