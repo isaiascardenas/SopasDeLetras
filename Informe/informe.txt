@@ -84,7 +84,4 @@ El proceso descrito se ilustra en el diagrama de flujo de la ilustración 6.
 
 # Conclusiones
 
-Se cumplen los objetivos propuestos y los requerimientos solicitados en el plazo estipulado. Aunque el proyecto requería mas tiempo para poder realizarse, la implementación de similitud débil simplificó muchas tareas, solo se tuvieron que hacer unas pequeñas modificaciones en el método principal. 
-
-En resumen el proyecto cumple con las especificaciones requeridas y en el plazo solicitado, a modo de ejemplo se adjuntan 3 ejemplos con diferentes archivos de entrada obteniendo los resultados esperados...
-
+Se cumplen los objetivos propuestos y los requerimientos solicitados en el plazo estipulado. Aunque el proyecto requería mas tiempo para poder realizarse, la implementación de similitud débil simplificó muchas tareas, solo se tuvieron que hacer unas pequeñas modificaciones en el método principal lo que da cuenta de lo importante que es la reutilización de código en este método. Las adaptaciones de los métodos de las clases fueron rápidas ya que el código anterior no fué escrito hace mucho lo que facilitó la generación de nuevas ideas y mejoras. Se adjuntan 5 ejemplos con diferentes archivos de entrada que reflejan el resultado esperado de este proyecto.
