@@ -58,11 +58,7 @@ public class LetterSoup
 					word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
 					this.searchWord(word, lastPositions, backFrom, set);
 						
-					break;
-					// if (this.searchWord(word, lastPositions, backFrom, set)) {
-					// 	this.findingWords.add(0, word.toString());
-					// 	// break;
-					// }	
+					break;	
 				}
 			}
 			break;
@@ -272,17 +268,13 @@ public class LetterSoup
 					case "right":
 						position.set(1, this.coordinates.get(1));
 						position.set(0, this.coordinates.get(0)+1);
-						System.out.println("not in positionsSet: "+!positionsSet.contains(position) + " ;position: "+ position+" ;positionsSet: "+positionsSet);
 						if (this.isNextLetter(this.word.toString().length(), this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)+1)) && !positionsSet.contains(position)) {
-							System.out.println(direction);
 							this.coordinates.set(0, this.coordinates.get(0)+1);
 							positionsSet.add(0, position);
-							System.out.println(positionsSet);
 							word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
 							if (word.toString().length() == 4) {
 								positionsSet.remove(position);
 								this.goBack(direction);
-								System.out.println(word.toString());
 								this.findingWords.add(0, word.toString());
 								word.deleteCharAt(word.toString().length()-1);
 								break;
@@ -297,15 +289,12 @@ public class LetterSoup
 						position.set(0, this.coordinates.get(0));
 						position.set(1, this.coordinates.get(1)-1);
 						if (this.isNextLetter(this.word.toString().length(), this.soup.get(this.coordinates.get(1)-1).charAt(this.coordinates.get(0))) && !positionsSet.contains(position)) {
-							System.out.println(direction);
 							this.coordinates.set(1, this.coordinates.get(1)-1);
 							positionsSet.add(0, position);
-							System.out.println(positionsSet);
 							word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
 							if (word.toString().length() == 4) {
 								positionsSet.remove(position);
 								this.goBack(direction);
-								System.out.println(word.toString());
 								this.findingWords.add(0, word.toString());
 								word.deleteCharAt(word.toString().length()-1);
 								break;
@@ -319,15 +308,12 @@ public class LetterSoup
 						position.set(0, this.coordinates.get(0));
 						position.set(1, this.coordinates.get(1)+1);
 						if (this.isNextLetter(this.word.toString().length(), this.soup.get(this.coordinates.get(1)+1).charAt(this.coordinates.get(0))) && !positionsSet.contains(position)) {
-							System.out.println(direction);
 							this.coordinates.set(1, this.coordinates.get(1)+1);
 							positionsSet.add(0, position);
-							System.out.println(positionsSet);
 							word.append(this.soup.get(this.coordinates.get(1)).charAt(this.coordinates.get(0)));
 							if (word.toString().length() == 4) {
 								positionsSet.remove(position);
 								this.goBack(direction);
-								System.out.println(word.toString());
 								this.findingWords.add(0, word.toString());
 								word.deleteCharAt(word.toString().length()-1);
 								break;
@@ -343,23 +329,14 @@ public class LetterSoup
 						position.set(1, this.coordinates.get(1));
 						positionsSet.remove(position);
 						this.goBack(backFrom.get(0));
-						System.out.println("back");
 						word.deleteCharAt(word.toString().length()-1);
 						backFrom.remove(0);
 						break;
 					default:
-						System.out.println("notFound");
-						System.out.println("false");
 						return false;
 				}
-				// if (word.toString().length() == 4) {
-				// 	System.out.println(word.toString());
-				// 	this.findingWords.add(0, word.toString());
-				// 	return this.searchWord(word, lastPositions, backFrom, positionsSet);
-				// }
 			}
 		}
-		System.out.println("true");
 		return true;
 	}
 }
