@@ -1,0 +1,86 @@
+# portada
+
+jose allende (profesor)
+cristian espinoza l (ayudante)
+
+# introduccion
+
+El presente proyecto consiste en crear un programa capaz de identificar palabras en comun en 2 sopas de letras diferentes definidas en ficheros de entrada. La sopa de letras utilizada en este proyecto no es la convencional, ya que las palabras no solo podrán estar en vertical u horizontal si no que las letras pueden estar adyacentes unas de otras en cualquier dirección, esto implica que las letras no pueden estar en diagonal como lo muestra la ilustración 1, además no se permite utilizar dos veces la misma letra (de la sopa de letras) para estructurar la palabra buscada por lo que la trayectoria de la palabra no puede intersectarse a si misma. Para efectos de este proyecto se define "palabra" como aquella formada por cuatro letras en la que se intercalan consonantes y vocales, iniciando con una consonante; es decir que segun la definición una palabra no puede contener dos consonantes o vocales juntas. Para resolver este problema deberá implentarse similitud de algoritmos, basandose en el proyecto anterior.
+
+(ilustración 1)
+
+Las sopas de letras estarán, como se mencionó anteriormente, en 2 ficheros de entrada diferentes y podrán tener cualquier dimensión. Deberá señalarse las palabras encontradas en ambas sopas de letras, para ésto se requiere escribir un fichero de salida como lo señala la ilustración 2. Se requiere utilizar al menos 3 clases: Una que administre el manejo de archivos, otra que trabaje con las sopas de letras y una clase principal.
+
+(ilustración 2)
+
+Para una mejor comprensión de éste documento es preciso definir algunos conceptos que
+serán indispensables en éste proyecto:
+
+* Programación orientada a objetos:
+	La programación orientada a objetos es un paradigma de programación que busca emular
+	de manera lógica la realidad o el entorno físico. De esta manera el código de un programa
+	orientado a objetos encapsula "elementos", que tienen ciertas "características" y
+	"funcionalidades", utilizando clases. Una clase es la estructura lógica generalizada para
+	objetos con las mismas características y funcionalidades, llamadas atributos y métodos
+	respectivamente. Una instancia particular de una clase es llamada Objeto. En general los
+	métodos son los que utilizan los atributos de una clase para interactuar con otros objetos o
+	bien para realizar una acción en particular.
+
+* Lenguaje de programación Java:
+	El lenguaje Java es un lenguaje de programación orientado a objetos, este lenguaje utiliza
+	varias clases, predefinidas en él, que interactúan para generar una aplicación. En general
+	los tipos de datos, las entradas y salidas y hasta el bloque principal (main) son utilizados
+	como clases. La mayor ventaja de éste lenguaje de programación es que fue diseñado para
+	que las aplicaciones puedan ejecutarse desde cualquier dispositivo, de manera que no
+	necesiten ser compiladas de nuevo.
+
+* Diagramas de flujo:
+	Los diagramas de flujo representan un algoritmo de procesamiento a través de bloques y
+	flechas, así facilita la comprensión de uno o varios procesos que deben llevarse a cabo para
+	lograr un objetivo en específico. En general la sintaxis de los diagramas de flujo consiste en
+	dos óvalos denotados como el inicio y el fin del algoritmo, rectángulos que representan un
+	proceso específico, rombos que indican bifurcaciones en el proceso general y flechas que
+	relacionan las ilustracións mencionadas anteriormente.
+
+# Descripcion del problema
+
+Dicho lo anterior se observa que el problema planteado se asemeja al del proyecto anterior (entrega 2), pero esta vez no se tiene un archivo de entrada para buscar las palabras. Dado que hay que encontrar las palabras contenidas en ambas sopas de letras es necesario buscar palabras existentes en una sopa primero, y luego determinar si en la segunda sopa se encuentran o no las palabras encontradas en la primera. De esta manera es posible reutilizar el algoritmo anteriormente utilizado.
+
+(ilustración 3)
+
+Cabe destacar que una palabra es valida solo si inicia en una consonante, la segunda letra debe ser una vocal, la tercera una consonante y debe terminar en vocal; a partir de estas restricciones se puede determinar si la siguiente letra en la palabra es o no vocal segun su largo, de manera que si el largo es par la letra que sigue debe ser una consonante y del mismo modo si el largo de la palabra es impar la letra que sigue es una vocal. La restriccion se mantiene hasta que la palabra tenga largo 4.
+
+Luego de encontrar las palabras existentes en la primera sopa solo queda determinar cual de ellas esta presente en la segunda sopa de letras, algoritmo que fué implementado en el proyecto anterior (entrega 2), finalmente se determinan las palabras encontradas en la segunda sopa de letras para escribir el archivo de salida.
+
+# Descripcion de la solucion
+
+Se almacenará la sopa de letras en una matriz creada con ArrayList<String> de manera que se pueda recorrer caracter por caracter, se almacenarán las palabras a buscar en otro ArrayList<String> para recorrerlas una por una y buscarlas dentro de la sopa de letras. Se buscarán coincidencias de la primera letra de la palabra buscada y cada vez que se encuentren se utilizará un algoritmo recursivo para buscar la palabra implementando el método Busqueda por espacio de estados. Éste algoritmo se apoyará en una pila que contiene los estados activos (posibles soluciones) y se iran extrayendo estados desde la pila para realizar una busqueda en profundidad como lo muestra la ilustración 4.
+
+(ilustración 4)
+
+## Las clases que interactuan en esta implementación son las siguientes:
+
+* FileManager: Es la clase que administra los ficheros que se leerán y se escribirán, si el archivo de salida no existe la clase lo crea con el contenido correspondiente.
+
+* LetterSoup: Ésta clase se encarga de manipular la sopa de letras para buscar las palabras solicitadas, implementa el método Busqueda en espacio de estados de manera recursiva.
+
+* Application: La clase Application relaciona las dos clases mencionadas anteriormente, instancia un objeto FileManager y un objeto LetterSoup para realizar los objetivos de éste programa.
+
+La interacción de estas clases se ilustran en la ilustración 5
+
+(ilustración 5)
+
+La funcionalidad principal se centra en el método depthFirstSearch de la clase LetterSoup, realiza una busqueda en profundidad en la sopa de letras. Para encontrar la palabra dentro de la sopa de letras se genera una pila que guardará los Strings de las direcciones adyacentes para buscar la siguiente letra ademas de el String "back" que servirá para realizar el backtraking en caso de que se haya escogido la direccion equivocada, en el fondo de la pila se guarda el String "notFoud" que indica que la palabra no ha sido encontrada. Se extraen las direcciones desde la pila para buscar la letra correspondiente y encaso de que ese extraiga el String "back" se regresará a la posicion anterior y se buscará en otra dirección, cada vez que cambia la letra a buscar se agregan nuevas direcciones y un "back". Cuando se encuentra la letra se ingresa nuevamente al metodo para buscar la letra que sigue, el  proceso se repite hasta que la pila esté vacia o hasta que se hayan recorrido todas las letras de la palabra.
+
+En caso de que se haya recorrido toda la palabra ésta habrá sido encontrada y se retornara "true", en otro caso se habrá llegado hasta el fondo de la pila en donde estaba el String "notFound" lo que indica que la palabra no ha sido encontrada retornando "false".
+
+Cada palabra en el archivo de entrada (Palabras.in) se busca utilizando el metodo depthFirstSearch y cada palabra encontrada se guarda en el ArrayList findingWords, de manera que al final del proceso se puedan obtener las palabras que no se encontraron removiendo el contenido de findingWords del archivo de entrada. Luego de haber buscado todas las palabras se escribe en el archivo de salida (Solucion.out) las palabras encontradas y las que no.
+
+El proceso descrito se ilustra en el diagrama de flujo de la ilustración 6.
+
+(ilustración 6)
+
+# Conclusiones
+
+En resumen el proyecto cumple con las especificaciones requeridas y en el plazo solicitado, a modo de ejemplo se adjuntan 3 ejemplos con diferentes archivos de entrada obteniendo los resultados esperados...
+
